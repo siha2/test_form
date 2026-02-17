@@ -4,10 +4,14 @@
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         // Assign Variables
-        $user = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-        $mail = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-        $cell = filter_var($_POST['cellphone'], FILTER_SANITIZE_NUMBER_INT);
-        $msg  = filter_var($_POST['message'], FILTER_SANITIZE_STRING);
+
+        $user = isset($_POST['username']) ? trim(strip_tags($_POST['username'])) : '';
+        $user = htmlspecialchars($user, ENT_QUOTES, 'UTF-8');
+        $mail = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
+        $cell = filter_var(trim($_POST['cellphone'] ?? ''), FILTER_SANITIZE_NUMBER_INT);
+        $msg  = isset($_POST['message']) ? trim(strip_tags($_POST['message'])) : '';
+        $msg  = htmlspecialchars($msg, ENT_QUOTES, 'UTF-8');
+        
         
         // Creating Array of Errors
         $formErrors = array();
@@ -47,7 +51,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Contact Form</title>
-        <link rel="icon" href="/me.webp" type="image/x-icon" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="css/bootstrap.min.css" />
         <link rel="stylesheet" href="css/font-awesome.min.css" />
         <link rel="stylesheet" href="css/contact.css" />
